@@ -47,6 +47,7 @@ import com.medical.medcoach.getOTPActivity;
 import java.util.Date;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 
 
 public class LoginTabFragment extends Fragment {
@@ -130,7 +131,7 @@ public class LoginTabFragment extends Fragment {
                 {
                     Toast.makeText(getActivity(),"Enter email & Password",Toast.LENGTH_SHORT).show();
                     counter--;
-                } else if (email.length()==10) {
+                } else if (!isEmail(email)) {
                     firebaseFirestore.collection("Users")
                                     .whereEqualTo("Number",email)
                                             .get()
@@ -188,7 +189,7 @@ public class LoginTabFragment extends Fragment {
                                                             Toast.makeText(getActivity(), "Login Successful.",
                                                                     Toast.LENGTH_SHORT).show();
                                                             Intent intent= new Intent(getActivity(),MainActivity.class);
-//                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                                             startActivity(intent);
                                                             getActivity().finish();
 
@@ -272,5 +273,14 @@ public class LoginTabFragment extends Fragment {
 
         Toast.makeText(getActivity(), "Please Enter", Toast.LENGTH_SHORT).show();
 
+    }
+
+    private  Boolean isEmail(String Email){
+        String regex = "^[A-Za-z0-9+_.-]+@(.+)$";
+        Pattern pattern = Pattern.compile(regex);
+        if (!pattern.matcher(Email).matches()){
+            return false;
+        }
+        return true;
     }
 }

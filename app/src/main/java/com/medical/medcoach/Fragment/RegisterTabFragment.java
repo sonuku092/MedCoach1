@@ -120,25 +120,6 @@ public class RegisterTabFragment extends Fragment {
 
                 }
 
-
-//                    firebaseFirestore.collection("Users")
-//                            .whereEqualTo("Email",phoneTxt)
-//                            .get()
-//                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                                @Override
-//                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                                    if (task.isSuccessful()){
-//                                        for (QueryDocumentSnapshot documentSnapshot: task.getResult()){
-//                                            String name = (String) documentSnapshot.get("First Name");
-//                                            String pass = (String) documentSnapshot.get("Password");
-//                                            Toast.makeText(getContext(), pass, Toast.LENGTH_SHORT).show();
-//                                        }
-//                                    }else {
-//                                        Toast.makeText(getContext(), "Create new acc", Toast.LENGTH_SHORT).show();
-//                                    }
-//                                }
-//                            });
-
             }
 
         });
@@ -189,6 +170,5 @@ public class RegisterTabFragment extends Fragment {
         }
         return true;
     }
-
 
 }
