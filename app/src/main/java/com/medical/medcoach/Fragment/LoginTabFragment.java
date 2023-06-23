@@ -172,28 +172,40 @@ public class LoginTabFragment extends Fragment {
 
                 } else {
 
-                    mAuth.signInWithEmailAndPassword(email, password)
-                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    if (task.isSuccessful()) {
-                                        // Sign in success, update UI with the signed-in user's information
-                                        Toast.makeText(getActivity(), "Login Successful.",
-                                                Toast.LENGTH_SHORT).show();
-                                        Intent intent= new Intent(getActivity(),MainActivity.class);
+                    firebaseFirestore.collection("Users")
+                            .whereEqualTo("Email",email)
+                            .get()
+                            .addOnCompleteListener(task -> {
+                                if (task.isSuccessful()){
+                                    for (QueryDocumentSnapshot documentSnapshot: task.getResult()){
+                                        String useremail = (String) documentSnapshot.get("Email");
+                                        mAuth.signInWithEmailAndPassword(email, password)
+                                                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                                        if (task.isSuccessful()) {
+                                                            // Sign in success, update UI with the signed-in user's information
+                                                            Toast.makeText(getActivity(), "Login Successful.",
+                                                                    Toast.LENGTH_SHORT).show();
+                                                            Intent intent= new Intent(getActivity(),MainActivity.class);
 //                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                        startActivity(intent);
-                                        getActivity().finish();
+                                                            startActivity(intent);
+                                                            getActivity().finish();
 
-                                    } else {
-                                        // If sign in fails, display a message to the user.
-                                        Toast.makeText(getActivity(), "Login failed.",Toast.LENGTH_SHORT).show();
+                                                        } else {
+                                                            // If sign in fails, display a message to the user.
+                                                            Toast.makeText(getActivity(), "Login failed.",Toast.LENGTH_SHORT).show();
 
+                                                        }
+                                                    }
+                                                });
                                     }
                                 }
+                            }).addOnFailureListener(e -> {
+
                             });
-//                    Toast.makeText(Login.this,"Invalid Credentials",Toast.LENGTH_SHORT).show();
-//                    counter--;
+
+                    counter--;
                 }
                 if(counter==0){
                     Toast.makeText(getActivity(),"failed to login attempts",Toast.LENGTH_SHORT).show();
@@ -203,7 +215,6 @@ public class LoginTabFragment extends Fragment {
             }
 
         });
-
 
         signInButton = view.findViewById(R.id.googleLoginBtn);
         signInButton.setOnClickListener(new View.OnClickListener() {
