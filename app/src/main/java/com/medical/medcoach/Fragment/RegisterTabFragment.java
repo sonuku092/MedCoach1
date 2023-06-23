@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -59,44 +60,36 @@ public class RegisterTabFragment extends Fragment {
             if (fullnameTxt.isEmpty()||phoneTxt.isEmpty()||passwordTxt.isEmpty()||cpasswordTxt.isEmpty()){
                 Toast.makeText(getActivity(), "Please fill all Fields.", Toast.LENGTH_SHORT).show();
             } else if (!isValidPassword(passwordTxt)) {
-                Toast.makeText(getActivity(), "Password Not Strong.", Toast.LENGTH_SHORT).show();
+                reg_password.setError("Weak Password");
                 reg_password.requestFocus();
             } else if (!passwordTxt.equals(cpasswordTxt)) {
-                Toast.makeText(getActivity(), "Password Not Matching.", Toast.LENGTH_SHORT).show();
+                c_password.setError("Not Match");
                 c_password.requestFocus();
             } else {
 
-//                if (!isEmail(phoneTxt)){
-//                    firebaseFirestore.collection("Users")
-//                        .whereEqualTo("Number",phoneTxt)
-//                        .get()
-//                        .addOnCompleteListener(task -> {
-//                            if (task.isSuccessful()){
-//                                for (QueryDocumentSnapshot documentSnapshot: task.getResult()){
-//                                    String number1 = (String) documentSnapshot.get("Number");
-//                                }
-//                                Toast.makeText(getContext(), "Already Have Acc", Toast.LENGTH_SHORT).show();
-//                            }
-//                        }).addOnFailureListener(e -> {
-//
-//                        });
-                if(!Patterns.EMAIL_ADDRESS.matcher(phoneTxt).matches()){
-                    FirebaseUser  firebaseUser=FirebaseAuth.getInstance().getCurrentUser();
-                    String phone=firebaseUser.getPhoneNumber();
-                    Toast.makeText(getContext(), phone, Toast.LENGTH_SHORT).show();
-                    if(!phone.equals(phoneTxt)) {
-                        // Firestore Database;
-                        Map<String, Object> user = new HashMap<>();
-                        user.put("First Name", fullnameTxt);
-                        user.put("Password", passwordTxt);
-                        user.put("Number", phoneTxt);
-                        firebaseFirestore.collection("Users")
-                                .add(user)
-                                .addOnSuccessListener(documentReference -> startActivity(new Intent(getActivity(), SplashActivity.class)));
-                    }else{
-                        reg_phone.setError("User is already created");
-                        reg_phone.requestFocus();
-                    }
+                if (!isEmail(phoneTxt)){
+                    Map<String, Object> user = new HashMap<>();
+                    user.put("First Name", fullnameTxt);
+                    user.put("Password", passwordTxt);
+                    user.put("Number", phoneTxt);
+                    firebaseFirestore.collection("Users")
+                        .whereEqualTo("Number",phoneTxt)
+                        .get()
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()){
+                                for (QueryDocumentSnapshot documentSnapshot: task.getResult()){
+                                    String number1 = (String) documentSnapshot.get("Number");
+                                }
+                            }
+                        }).addOnFailureListener(e -> {
+
+                        });
+                    firebaseFirestore.collection("Users")
+                            .add(user)
+                            .addOnSuccessListener(documentReference -> {
+
+                            })
+                            .addOnFailureListener(e -> Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show());
                 }else {
                     Map<String, Object> user = new HashMap<>();
                     user.put("First Name", fullnameTxt);
@@ -109,15 +102,15 @@ public class RegisterTabFragment extends Fragment {
                         .addOnCompleteListener(task -> {
                             if (task.isSuccessful()){
                                 for (QueryDocumentSnapshot documentSnapshot: task.getResult()){
-                                    String pass = (String) documentSnapshot.get("Password");
-                                    Toast.makeText(getContext(), pass, Toast.LENGTH_SHORT).show();
+                                    String email = (String) documentSnapshot.get("Email");
+                                    Toast.makeText(getContext(), email, Toast.LENGTH_SHORT).show();
                                 }
                             }
                         })
                             .addOnFailureListener(e -> {
 
                             });
-                    Toast.makeText(getContext(), "Create new acc", Toast.LENGTH_SHORT).show();
+
                     firebaseFirestore.collection("Users")
                             .add(user)
                             .addOnSuccessListener(documentReference -> {
@@ -146,79 +139,6 @@ public class RegisterTabFragment extends Fragment {
 //                                }
 //                            });
 
-
-
-
-//                    databaseReference.child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
-//                        @Override
-//                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                            //Check if email is not register
-//                            if (snapshot.hasChild("+91"+phoneTxt)){
-//                                Toast.makeText(getActivity(), "Phone No is already registered", Toast.LENGTH_SHORT).show();
-//                                reg_phone.requestFocus();
-//                            } else {
-//                                PhoneAuthProvider.getInstance().verifyPhoneNumber(
-//                                        "+91" + phoneTxt,
-//                                        60,
-//                                        TimeUnit.SECONDS,
-//                                        getActivity(),
-//                                        new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-//                                            @Override
-//                                            public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
-//                                                Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
-//
-//                                            }
-//
-//                                            @Override
-//                                            public void onVerificationFailed(@NonNull FirebaseException e) {
-//                                                Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
-//                                            }
-//
-//                                            @Override
-//                                            public void onCodeSent(@NonNull String Sendotp, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
-//                                                Intent intent = new Intent(getActivity(),getOTPActivity.class);
-//                                                intent.putExtra("phoneTxt",phoneTxt);
-//                                                intent.putExtra("backend",Sendotp);
-//                                                intent.putExtra("FullName",fullnameTxt);
-//                                                intent.putExtra("Password",passwordTxt);
-//                                                startActivity(intent);
-//                                            }
-//                                        }
-//                                );
-//                                //sending data to Firebase
-//
-//
-////                                mAuth.createUserWithEmailAndPassword(phoneTxt, passwordTxt)
-////                                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-////                                            @Override
-////                                            public void onComplete(@NonNull Task<AuthResult> task) {
-////                                                if (task.isSuccessful()) {
-////                                                         databaseReference.child("Users").child(phoneTxt).child("Full Name").setValue(fullnameTxt);
-////                                                         databaseReference.child("Users").child(phoneTxt).child("Password").setValue(passwordTxt);
-////                                                    // Sign in success, update UI with the signed-in user's information
-//////                                                    FirebaseUser user = mAuth.getCurrentUser();
-////
-////                                                    Toast.makeText(getActivity(), "Account Created.",
-////                                                            Toast.LENGTH_SHORT).show();
-////
-////                                                    Intent intent = new Intent(getActivity(),MainActivity.class);
-////                                                    startActivity(intent);
-////
-////                                                } else {
-////                                                    // If sign in fails, display a message to the user.
-////                                                    Toast.makeText(getActivity(), "Authentication failed.", Toast.LENGTH_SHORT).show();
-////                                                }
-////                                            }
-////                                        });
-//
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void onCancelled(@NonNull DatabaseError error) {
-//
-//                        }
-//                    });
             }
 
         });
