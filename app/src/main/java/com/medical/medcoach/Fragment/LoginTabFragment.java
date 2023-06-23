@@ -36,6 +36,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.medical.medcoach.LoginRegisterActivity;
 import com.medical.medcoach.MainActivity;
 import com.medical.medcoach.R;
@@ -48,7 +51,7 @@ import java.util.concurrent.TimeUnit;
 
 public class LoginTabFragment extends Fragment {
 
-    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://medcoach-b742f-default-rtdb.firebaseio.com/");
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     TextInputEditText log_email, log_password;
     Button login_btn;
     FirebaseAuth mAuth;
@@ -128,50 +131,44 @@ public class LoginTabFragment extends Fragment {
                     Toast.makeText(getActivity(),"Enter email & Password",Toast.LENGTH_SHORT).show();
                     counter--;
                 } else if (email.length()==10) {
-                    databaseReference=FirebaseDatabase.getInstance().getReference("Users");
-                    databaseReference.child("+91"+email).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DataSnapshot> task) {
-                            if (task.isSuccessful()){
-                                if (task.getResult().exists()){
-                                    DataSnapshot dataSnapshot = task.getResult();
-                                    String Password = String.valueOf(dataSnapshot.child("Password").getValue());
-                                    PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                                            "+91" + email,
-                                            60,
-                                            TimeUnit.SECONDS,
-                                            getActivity(),
-                                            new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-                                                @Override
-                                                public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
-                                                    Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
-                                                }
+                    firebaseFirestore.collection("Users")
+                                    .whereEqualTo("Number",email)
+                                            .get()
+                                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                            if (task.isSuccessful()){
+                                                                for (QueryDocumentSnapshot queryDocumentSnapshot: task.getResult()){
+                                                                    String pass = (String) queryDocumentSnapshot.get("Password");
+                                                                    PhoneAuthProvider.getInstance().verifyPhoneNumber(
+                                                                            "+91" + email,
+                                                                            60,
+                                                                            TimeUnit.SECONDS,
+                                                                            getActivity(),
+                                                                            new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+                                                                                @Override
+                                                                                public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
+                                                                                    Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
+                                                                                }
 
-                                                @Override
-                                                public void onVerificationFailed(@NonNull FirebaseException e) {
-                                                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                                                }
+                                                                                @Override
+                                                                                public void onVerificationFailed(@NonNull FirebaseException e) {
+                                                                                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                                                }
 
-                                                @Override
-                                                public void onCodeSent(@NonNull String Sendotp, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
-                                                    Intent intent = new Intent(getActivity(), getOTPActivity.class);
-                                                    intent.putExtra("phoneTxt",email);
-                                                    intent.putExtra("backend",Sendotp);
-                                                    startActivity(intent);
-                                                }
-                                            }
-                                    );
-
-                                }else {
-                                    Toast.makeText(getActivity(), "User Not Exist", Toast.LENGTH_SHORT).show();
-                                }
-                                
-                            }else {
-                                Toast.makeText(getActivity(), "Failed", Toast.LENGTH_SHORT).show();
-                            }
-
-                        }
-                    });
+                                                                                @Override
+                                                                                public void onCodeSent(@NonNull String Sendotp, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+                                                                                    Intent intent = new Intent(getActivity(), getOTPActivity.class);
+                                                                                    intent.putExtra("phoneTxt",email);
+                                                                                    intent.putExtra("backend",Sendotp);
+                                                                                    startActivity(intent);
+                                                                                }
+                                                                            }
+                                                                    );
+                                                                }
+                                                            }
+                                                        }
+                                                    });
 
                 } else {
 

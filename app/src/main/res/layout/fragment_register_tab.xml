@@ -53,7 +53,7 @@
             android:id="@+id/Reg_Email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/phone_no"
+            android:hint="@string/email_id_mob_no"
             android:textColorHint="@color/DeepSkyBlue"
             app:boxStrokeColor="@color/DeepSkyBlue"
             app:boxStrokeErrorColor="@color/ScarletRed"
@@ -64,17 +64,15 @@
             app:errorTextColor="@color/ScarletRed"
             app:helperTextTextColor="@color/DeepSkyBlue"
             app:hintTextColor="@color/DeepSkyBlue"
-            app:placeholderText="10 Digit Phone No"
+            app:placeholderText="abc@gmail.com"
             app:placeholderTextColor="#80000000">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/phoneno"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:drawableStart="@drawable/baseline_local_phone_24"
+                android:drawableStart="@drawable/ic_email_24"
                 android:drawablePadding="5dp"
-                android:inputType="number"
-                android:maxLength="10"
                 android:padding="0dp"
                 android:singleLine="true"
                 android:textColorHint="#757575" />

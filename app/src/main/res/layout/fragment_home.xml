@@ -1,117 +1,274 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.HomeFragment">
+    tools:context=".Fragment.HomeFragment"
+    android:orientation="vertical">
 
     <!-- TODO: Update blank fragment layout -->
-
-
     <RelativeLayout
-        android:id="@+id/TOP_START"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:background="#25E1E1E1"
-        tools:ignore="UselessParent">
-
-
+        android:layout_height="56dp"
+        android:paddingHorizontal="20dp"
+        android:gravity="center_vertical">
         <TextView
-            android:layout_width="200dp"
-            android:layout_height="32dp"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="20dp"
-            android:text="Bangalore"
-            android:textStyle="bold" />
-
-
-
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/searchbar"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="60dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/login_bg"
-            android:clickable="true"
-            android:focusable="true"
-            app:defaultQueryHint="Search" />
-
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="10dp"
-            android:layout_marginStart="10dp"
-            android:background="@drawable/login_bg"
-            android:src="@drawable/madcoach_logo"
-            android:contentDescription="TODO" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="Home"
+            android:textStyle="bold"
+            android:textSize="24sp" />
     </RelativeLayout>
-
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="125dp"
-        android:orientation="vertical"
-        android:padding="10dp">
-
+        android:layout_marginBottom="110dp">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:background="@drawable/blogbg_1"
-            android:elevation="4dp">
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:padding="10dp"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="5dp"
+                android:background="@drawable/blogbg_1"
+                android:orientation="horizontal"
+                android:elevation="4dp">
+                <androidx.cardview.widget.CardView
+                    android:layout_width="120dp"
+                    android:layout_height="match_parent"
+                    app:cardCornerRadius="6dp"
+                    app:cardElevation="6dp">
+                    <ImageView
+                        android:layout_width="120dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/meditation_logo"
+                        android:scaleType="centerCrop"
+                        />
+                </androidx.cardview.widget.CardView>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingHorizontal="10dp">
 
-            <FrameLayout
-                android:layout_width="120dp"
-                android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                android:background="@drawable/cardbg_4">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Meditation"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/otpi1" />
-            </FrameLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <FrameLayout
-                android:layout_width="120dp"
-                android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                android:background="@drawable/cardbg_4">
+            </LinearLayout>
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ill1" />
-            </FrameLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:padding="10dp"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="5dp"
+                android:background="@drawable/blogbg_1"
+                android:orientation="horizontal"
+                android:elevation="4dp">
+                <androidx.cardview.widget.CardView
+                    android:layout_width="120dp"
+                    android:layout_height="match_parent"
+                    app:cardCornerRadius="6dp"
+                    app:cardElevation="6dp">
+                    <ImageView
+                        android:layout_width="120dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ayurveda_logo"
+                        android:scaleType="centerCrop"/>
+                </androidx.cardview.widget.CardView>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingHorizontal="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Ayurveda"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:padding="10dp"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="5dp"
+                android:background="@drawable/blogbg_1"
+                android:orientation="horizontal"
+                android:elevation="4dp">
+                <androidx.cardview.widget.CardView
+                    android:layout_width="120dp"
+                    android:layout_height="match_parent"
+                    app:cardCornerRadius="6dp"
+                    app:cardElevation="6dp">
+                    <ImageView
+                        android:layout_width="120dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/hypnotheraphy_logo"
+                        android:scaleType="centerCrop"/>
+                </androidx.cardview.widget.CardView>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingHorizontal="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="What Is Meditation? Meaning, Definition and Benefits"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:padding="10dp"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="5dp"
+                android:background="@drawable/blogbg_1"
+                android:orientation="horizontal"
+                android:elevation="4dp">
+                <androidx.cardview.widget.CardView
+                    android:layout_width="120dp"
+                    android:layout_height="match_parent"
+                    app:cardCornerRadius="6dp"
+                    app:cardElevation="6dp">
+                    <ImageView
+                        android:layout_width="120dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/acupunture_logo"
+                        android:scaleType="centerCrop"/>
+                </androidx.cardview.widget.CardView>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingHorizontal="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="What Is Meditation? Meaning, Definition and Benefits"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:padding="10dp"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="5dp"
+                android:background="@drawable/blogbg_1"
+                android:orientation="horizontal"
+                android:elevation="4dp">
+                <androidx.cardview.widget.CardView
+                    android:layout_width="120dp"
+                    android:layout_height="match_parent"
+                    app:cardCornerRadius="6dp"
+                    app:cardElevation="6dp">
+                    <ImageView
+                        android:layout_width="120dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/yoga_logo"
+                        android:scaleType="centerCrop"/>
+                </androidx.cardview.widget.CardView>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingHorizontal="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="What Is Meditation? Meaning, Definition and Benefits"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:padding="10dp"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="5dp"
+                android:background="@drawable/blogbg_1"
+                android:orientation="horizontal"
+                android:elevation="4dp">
+                <androidx.cardview.widget.CardView
+                    android:layout_width="120dp"
+                    android:layout_height="match_parent"
+                    app:cardCornerRadius="6dp"
+                    app:cardElevation="6dp">
+                    <ImageView
+                        android:layout_width="120dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/img4"
+                        android:scaleType="centerCrop"/>
+                </androidx.cardview.widget.CardView>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingHorizontal="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="What Is Meditation? Meaning, Definition and Benefits"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+
         </LinearLayout>
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/blogbg_1">
+    </ScrollView>
 
-            <FrameLayout
-                android:layout_width="120dp"
-                android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                android:background="@drawable/cardbg_4">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/otpi1" />
-            </FrameLayout>
-        </FrameLayout>
-
-
-    </LinearLayout>
-
-</FrameLayout>
+</LinearLayout>

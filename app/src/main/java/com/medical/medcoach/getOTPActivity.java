@@ -94,7 +94,7 @@ public class getOTPActivity extends AppCompatActivity {
                                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                                     //Check if phone is not register
                                                     if (snapshot.hasChild(Number)){
-                                                        Toast.makeText(getOTPActivity.this, "Phone No is already registered", Toast.LENGTH_SHORT).show();
+//                                                        Toast.makeText(getOTPActivity.this, "Phone No is already registered", Toast.LENGTH_SHORT).show();
                                                     } else {
                                                         databaseReference.child("Users").child(Number).child("Full Name").setValue(fullnameTxt);
                                                         databaseReference.child("Users").child(Number).child("Password").setValue(passwordTxt);
@@ -107,7 +107,7 @@ public class getOTPActivity extends AppCompatActivity {
 
                                                 }
                                             });
-                                            Toast.makeText(getOTPActivity.this, "Account Created!", Toast.LENGTH_SHORT).show();
+//                                            Toast.makeText(getOTPActivity.this, "Account Created!", Toast.LENGTH_SHORT).show();
                                             Intent intent=new Intent(getOTPActivity.this,MainActivity.class);
                                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                             startActivity(intent);
@@ -122,7 +122,7 @@ public class getOTPActivity extends AppCompatActivity {
                     } else {
                         Toast.makeText(getOTPActivity.this, "Please check Internet Connection", Toast.LENGTH_SHORT).show();
                     }
-                    Toast.makeText(getOTPActivity.this, "OTP verify", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getOTPActivity.this, "OTP verify", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getOTPActivity.this, "Please Enter all No", Toast.LENGTH_SHORT).show();
                 }
@@ -153,7 +153,7 @@ public class getOTPActivity extends AppCompatActivity {
                             @Override
                             public void onCodeSent(@NonNull String newSendotp, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
                                 getotp=newSendotp;
-                                Toast.makeText(getOTPActivity.this, "OTP send Successfully ", Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(getOTPActivity.this, "OTP send Successfully ", Toast.LENGTH_SHORT).show();
                             }
                         }
                 );
