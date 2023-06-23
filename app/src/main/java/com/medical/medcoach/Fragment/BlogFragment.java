@@ -49,6 +49,17 @@ public class BlogFragment extends Fragment {
         blogsArrayList.add(new Blogs(R.drawable.img1, "Maditation", "Sonu","02/feb"));
         blogsArrayList.add(new Blogs(R.drawable.img1, "Maditation", "Sonu","02/feb"));
         blogsArrayList.add(new Blogs(R.drawable.img1, "Maditation", "Sonu","02/feb"));
+        blogsArrayList.add(new Blogs(R.drawable.img1, "Maditation", "Sonu","02/feb"));
+        blogsArrayList.add(new Blogs(R.drawable.img1, "Maditation", "Sonu","02/feb"));
+        blogsArrayList.add(new Blogs(R.drawable.img1, "Maditation", "Sonu","02/feb"));
+        blogsArrayList.add(new Blogs(R.drawable.img1, "Maditation", "Sonu","02/feb"));
+        blogsArrayList.add(new Blogs(R.drawable.img1, "Maditation", "Sonu","02/feb"));
+        blogsArrayList.add(new Blogs(R.drawable.img1, "Maditation", "Sonu","02/feb"));
+        blogsArrayList.add(new Blogs(R.drawable.img1, "Maditation", "Sonu","02/feb"));
+        blogsArrayList.add(new Blogs(R.drawable.img1, "Maditation", "Sonu","02/feb"));
+        blogsArrayList.add(new Blogs(R.drawable.img1, "Maditation", "Sonu","02/feb"));
+        blogsArrayList.add(new Blogs(R.drawable.img1, "Maditation", "Sonu","02/feb"));
+        blogsArrayList.add(new Blogs(R.drawable.img1, "Maditation", "Sonu","02/feb"));
         RecyclerBlogsAdapter adapter = new RecyclerBlogsAdapter(getContext(),blogsArrayList);
 
         recyclerView.setAdapter(adapter);
