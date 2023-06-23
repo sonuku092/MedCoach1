@@ -180,30 +180,28 @@ public class LoginTabFragment extends Fragment {
                                 if (task.isSuccessful()){
                                     for (QueryDocumentSnapshot documentSnapshot: task.getResult()){
                                         String useremail = (String) documentSnapshot.get("Email");
-                                        mAuth.signInWithEmailAndPassword(email, password)
-                                                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                                    @Override
-                                                    public void onComplete(@NonNull Task<AuthResult> task) {
-                                                        if (task.isSuccessful()) {
-                                                            // Sign in success, update UI with the signed-in user's information
-                                                            Toast.makeText(getActivity(), "Login Successful.",
-                                                                    Toast.LENGTH_SHORT).show();
-                                                            Intent intent= new Intent(getActivity(),MainActivity.class);
-                                                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                                            startActivity(intent);
-                                                            getActivity().finish();
 
-                                                        } else {
-                                                            // If sign in fails, display a message to the user.
-                                                            Toast.makeText(getActivity(), "Login failed.",Toast.LENGTH_SHORT).show();
-
-                                                        }
-                                                    }
-                                                });
                                     }
                                 }
                             }).addOnFailureListener(e -> {
 
+                            });
+                    mAuth.signInWithEmailAndPassword(email, password)
+                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        // Sign in success, update UI with the signed-in user's information
+                                        Intent intent= new Intent(getActivity(),MainActivity.class);
+                                        startActivity(intent);
+                                        getActivity().finish();
+
+                                    } else {
+                                        // If sign in fails, display a message to the user.
+                                        Toast.makeText(getActivity(), "Login failed.",Toast.LENGTH_SHORT).show();
+
+                                    }
+                                }
                             });
 
                     counter--;
@@ -234,44 +232,6 @@ public class LoginTabFragment extends Fragment {
 
 
         return view;
-
-    }
-
-    private boolean validateEmail(){
-        String email = Objects.requireNonNull(log_email.getText()).toString().trim();
-
-        if (email.isEmpty()){
-            log_email.setError("Field can't be Empty");
-            return false;
-        }
-        else {
-            log_email.setError(null);
-            return true;
-        }
-    }
-
-    private boolean validatePassword(){
-        String password = Objects.requireNonNull(log_password.getText()).toString().trim();
-
-        if (password.isEmpty()){
-            log_password.setError("Field can't be Empty");
-            return false;
-        }
-        else {
-            log_password.setError(null);
-            return true;
-        }
-    }
-
-    public  void confirmInput(View v){
-        if (!validateEmail() | !validatePassword()){
-            return;
-        }
-        String input = "email: " + log_email.getText().toString();
-        input +="\n";
-        input = "Password: " + log_password.getText().toString();
-
-        Toast.makeText(getActivity(), "Please Enter", Toast.LENGTH_SHORT).show();
 
     }
 

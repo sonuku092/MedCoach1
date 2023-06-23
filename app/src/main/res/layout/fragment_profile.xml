@@ -39,12 +39,14 @@
             android:layout_marginStart="64dp"
             android:layout_marginTop="20dp"
             android:textSize="24dp"/>
+
         <androidx.appcompat.widget.AppCompatButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="60dp"
-            android:text="@string/create_profile"
-            android:backgroundTint="@color/white"/>
+            android:backgroundTint="@color/white"
+            android:drawableRight="@drawable/baseline_edit_24"
+            android:text="@string/edit_profile" />
 
     </FrameLayout>
     <LinearLayout

@@ -28,8 +28,6 @@ public class cont_blog extends AppCompatActivity {
 
 
         setContentView(R.layout.activity_cont_blog);
-        String TitleTxt = "Meditation", ContentTxt = "Meditation has proven difficult to define as it covers a wide range of dissimilar practices in different traditions. In popular usage, the word \"meditation\" and the phrase \"meditative practice\" are often used imprecisely to designate practices found across many cultures.";
-        String id = "1235";
 
         title=findViewById(R.id.title);
         content=findViewById(R.id.content);

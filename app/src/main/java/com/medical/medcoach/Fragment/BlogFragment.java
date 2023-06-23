@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -56,6 +58,19 @@ public class BlogFragment extends Fragment {
             public void onClick(View view) {
                 Dialog dialog = new Dialog(getContext());
                 dialog.setContentView(R.layout.addblogs);
+
+                EditText Titles = dialog.findViewById(R.id.title);
+                EditText Contents = dialog.findViewById(R.id.contents);
+                Button SaveBtn = dialog.findViewById(R.id.Save_Btn);
+                Button cancel = dialog.findViewById(R.id.CancelBtn);
+
+                SaveBtn.setOnClickListener(view1 -> {
+                    if (!Titles.getText().toString().isEmpty()||!Contents.getText().toString().isEmpty()) {
+                        String title = Titles.getText().toString();
+                        String contents = Contents.getText().toString();
+                    }
+                });
+                dialog.show();
             }
         });
 

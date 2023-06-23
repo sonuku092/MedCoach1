@@ -9,14 +9,20 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.medical.medcoach.R;
 import com.medical.medcoach.SplashActivity;
 
@@ -31,7 +37,7 @@ public class RegisterTabFragment extends Fragment {
     FirebaseAuth mAuth;
     TextInputEditText Name, reg_phone, reg_password , c_password;
     Button register_btn, reset_btn;
-    int flag;
+    int flag = 0;
 
 
     @Override
@@ -68,10 +74,7 @@ public class RegisterTabFragment extends Fragment {
             } else {
 
                 if (!isEmail(phoneTxt)){
-                    Map<String, Object> user = new HashMap<>();
-                    user.put("First Name", fullnameTxt);
-                    user.put("Password", passwordTxt);
-                    user.put("Number", phoneTxt);
+
                     firebaseFirestore.collection("Users")
                         .whereEqualTo("Number",phoneTxt)
                         .get()
@@ -79,44 +82,56 @@ public class RegisterTabFragment extends Fragment {
                             if (task.isSuccessful()){
                                 for (QueryDocumentSnapshot documentSnapshot: task.getResult()){
                                     String number1 = (String) documentSnapshot.get("Number");
+                                    if (!number1.isEmpty()){
+                                        flag=1;
+                                    }
                                 }
                             }
                         }).addOnFailureListener(e -> {
 
                         });
-                    firebaseFirestore.collection("Users")
-                            .add(user)
-                            .addOnSuccessListener(documentReference -> {
+                    if(!(flag ==1)){
+                        Map<String, Object> user = new HashMap<>();
+                        user.put("First Name", fullnameTxt);
+                        user.put("Password", passwordTxt);
+                        user.put("Number", phoneTxt);
+                        firebaseFirestore.collection("Users")
+                                .add(user)
+                                .addOnSuccessListener(documentReference -> {
 
-                            })
-                            .addOnFailureListener(e -> Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show());
+                                });
+                        flag=0;
+                    }
                 }else {
-                    Map<String, Object> user = new HashMap<>();
-                    user.put("First Name", fullnameTxt);
-                    user.put("Password", passwordTxt);
-                    user.put("Email", phoneTxt);
+
 
                     firebaseFirestore.collection("Users")
-                        .whereEqualTo("Email",phoneTxt)
-                        .get()
-                        .addOnCompleteListener(task -> {
-                            if (task.isSuccessful()){
-                                for (QueryDocumentSnapshot documentSnapshot: task.getResult()){
-                                    String email = (String) documentSnapshot.get("Email");
-                                    Toast.makeText(getContext(), email, Toast.LENGTH_SHORT).show();
+                                    .whereEqualTo("Email",phoneTxt)
+                                            .get()
+                            .addOnCompleteListener(task -> {
+                                if (task.isSuccessful()){
+                                    for (QueryDocumentSnapshot documentSnapshot: task.getResult()){
+                                        String number1 = (String) documentSnapshot.get("Number");
+                                        if (!number1.isEmpty()){
+                                            flag=1;
+                                            }
+                                    }
                                 }
-                            }
-                        })
-                            .addOnFailureListener(e -> {
-
+                            }).addOnFailureListener(e -> {
                             });
+                    if (!(flag ==1)) {
+                        Map<String, Object> user = new HashMap<>();
+                        user.put("First Name", fullnameTxt);
+                        user.put("Password", passwordTxt);
+                        user.put("Email", phoneTxt);
+                        firebaseFirestore.collection("Users")
+                                .add(user)
+                                .addOnSuccessListener(documentReference -> {
 
-                    firebaseFirestore.collection("Users")
-                            .add(user)
-                            .addOnSuccessListener(documentReference -> {
-
-                            })
-                            .addOnFailureListener(e -> Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show());
+                                }).addOnFailureListener(e -> {
+                                });
+                        flag=0;
+                    }
 
                 }
 
