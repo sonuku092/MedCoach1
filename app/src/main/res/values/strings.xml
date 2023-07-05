@@ -98,7 +98,7 @@ Suggestion and Visualization: During the trance state, the hypnotherapist provid
 Regression Therapy: In certain cases, hypnotherapy may involve regression techniques, where individuals are guided to explore past experiences and memories. This approach helps identify and address underlying issues contributing to current challenges.
 </string>
 <!--    Acupunture-->
-<string name="intro_to_acupunture"><b>Introduction of Acupunture</b>
+<string name="intro_to_acupunture"><h1 style="color:blue"><b>Introduction of Acupunture</b></h1>
    \n\tAcupuncture is a traditional Chinese medical practice that involves stimulating specific points on the body using thin needles. It is based on the concept of energy flow, known as Qi (pronounced "chee"), which travels along pathways called meridians. Acupuncture aims to restore the balance of Qi to promote health and alleviate various ailments. In recent years, acupuncture has gained popularity worldwide, including in Bangalore, India. </string>
 <string name="origin_of_acupunture"><b>Origin of Acupunture</b>
     \n\tAcupuncture has a long history dating back over 2,000 years in China. It is an integral part of Traditional Chinese Medicine (TCM) and is rooted in ancient Chinese philosophy and medical theories. The practice of acupuncture was developed based on the belief that disruptions in the flow of Qi can lead to imbalances and health problems.
