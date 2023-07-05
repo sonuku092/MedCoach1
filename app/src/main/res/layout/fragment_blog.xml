@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragment.BlogFragment"
-    android:background="#F4F4F4">
+    android:background="#F5F5F5">
 
     <!-- TODO: Update blank fragment layout -->
     <RelativeLayout

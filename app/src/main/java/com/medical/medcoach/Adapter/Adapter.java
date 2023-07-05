@@ -60,6 +60,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         holder.itemView.setOnLongClickListener(view -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(holder.author.getContext());
             builder.setTitle("What you want to do  ?");
+            builder.setMessage("Select Option!");
             builder.setPositiveButton("UPDATE", (dialogInterface, i) -> {
                 final Dialog u_dialog= new Dialog(holder.author.getContext());
                 u_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);

@@ -4,18 +4,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Fragment.ProfileFragment">
+    tools:context=".Fragment.ProfileFragment"
+    android:background="#F5F5F5">
 
     <!-- TODO: Update blank fragment layout -->
 
     <LinearLayout
+        android:id="@+id/proLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/stroke_bg"
         android:paddingHorizontal="20dp"
         android:paddingTop="20dp"
         android:paddingBottom="10dp"
-        android:layout_margin="20dp"
+        android:layout_marginTop="56dp"
+        android:layout_marginHorizontal="20dp"
         android:orientation="vertical">
     <androidx.cardview.widget.CardView
         android:layout_width="150dp"
@@ -52,29 +55,26 @@
             android:textSize="24dp"
             android:textStyle="bold" />
 
-<!--        <androidx.appcompat.widget.AppCompatButton-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginTop="20dp"-->
-<!--            android:backgroundTint="@color/white"-->
-<!--            android:drawableRight="@drawable/baseline_edit_24"-->
-<!--            android:text="@string/edit_profile" />-->
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="385dp"
-        android:layout_marginTop="400dp"
-        android:orientation="vertical"
-        android:paddingHorizontal="20dp">
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/logoutBtn"
+        <Button
+            android:id="@+id/EditProfileBtn"
+            style="@style/Widget.Material3.Button.TextButton.Dialog"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="5dp"
+            android:backgroundTint="@color/white"
+            android:text="EDIT PROFILE"
+            app:icon="@drawable/baseline_edit_24" />
+
+        <Button
+            android:id="@+id/logoutBtn"
+            style="@style/Widget.Material3.Button.TextButton.Dialog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
             android:backgroundTint="#FF8F05"
-            android:text="Log Out" />
+            android:text="Log Out   "
+            app:icon="@drawable/login" />
 
     </LinearLayout>
 

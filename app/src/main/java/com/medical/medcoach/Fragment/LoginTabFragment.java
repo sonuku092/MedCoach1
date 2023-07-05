@@ -39,7 +39,6 @@ public class LoginTabFragment extends Fragment {
     FirebaseAuth mAuth;
     int counter=3;
 
-
     @Override
     public void onStart() {
         // Check if user is signed in (non-null) and update UI accordingly.
@@ -49,10 +48,8 @@ public class LoginTabFragment extends Fragment {
             Intent intent = new Intent(getActivity(), MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
-//            finish();
         }
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -136,6 +133,8 @@ public class LoginTabFragment extends Fragment {
                                 if (task.isSuccessful()) {
                                     // Sign in success, update UI with the signed-in user's information
                                     Intent intent= new Intent(getActivity(),MainActivity.class);
+                                    intent.putExtra("Email",email);
+                                    intent.putExtra("Password",password);
                                     startActivity(intent);
                                     getActivity().finish();
 

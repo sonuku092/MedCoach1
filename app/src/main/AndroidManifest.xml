@@ -33,9 +33,6 @@
             android:name=".cate_hypnotherapy"
             android:exported="false" />
         <activity
-            android:name=".cont_blog"
-            android:exported="false" />
-        <activity
             android:name=".cate_meditation"
             android:exported="false" />
         <activity
@@ -43,12 +40,6 @@
             android:exported="false" />
         <activity
             android:name=".getOTPActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Register"
-            android:exported="false" />
-        <activity
-            android:name=".Login"
             android:exported="false" />
         <activity
             android:name=".LoginRegisterActivity"

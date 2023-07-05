@@ -33,16 +33,9 @@ import com.medical.medcoach.getOTPActivity;
 import java.util.concurrent.TimeUnit;
 
 public class ProfileFragment extends Fragment {
-
-    GoogleSignInAccount account;
-//    Button logoutBtn;
-
     FragmentProfileBinding binding;
-
     DatabaseReference databaseReference;
     TextView UserName;
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -81,15 +74,4 @@ public class ProfileFragment extends Fragment {
      return binding.getRoot();
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        intivar();
-    }
-
-    private void intivar() {
-        account = GoogleSignIn.getLastSignedInAccount(getContext());
-    }
-
-
-    }
+}
