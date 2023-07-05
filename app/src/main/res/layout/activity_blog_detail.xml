@@ -78,6 +78,7 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_marginHorizontal="15dp"
+      android:layout_marginTop="5dp"
       android:text="What is meditations"
       android:textColor="#1C1C1C"
       android:layout_below="@id/title11"
@@ -95,4 +96,12 @@
       android:layout_marginBottom="20dp"
       android:clickable="true"
       app:srcCompat="@drawable/baseline_share_24" />
+
+  <View
+      android:id="@+id/view"
+      android:layout_width="match_parent"
+      android:layout_height="1dp"
+      android:background="@color/Cyan"
+      android:layout_marginHorizontal="15dp"
+      android:layout_below="@id/title11"/>
 </RelativeLayout>
