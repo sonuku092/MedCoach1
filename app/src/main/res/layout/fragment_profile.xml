@@ -3,66 +3,78 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragment.ProfileFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/stroke_bg"
         android:paddingHorizontal="20dp"
         android:paddingTop="20dp"
         android:paddingBottom="10dp"
-        android:background="#F6F6F6"
-        android:elevation="5dp">
-
+        android:layout_margin="20dp"
+        android:orientation="vertical">
+    <androidx.cardview.widget.CardView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        app:cardCornerRadius="100dp"
+        android:layout_gravity="center">
         <ImageView
-            android:layout_width="54dp"
-            android:layout_height="54dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:background="@drawable/messenger_button_send_round_shadow"
             android:clickable="true"
             android:contentDescription="@string/app_name"
             android:focusable="true"
-            android:src="@drawable/ic_person" />
+            android:scaleType="centerCrop"
+            android:src="@drawable/profile" />
+    </androidx.cardview.widget.CardView>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hello"
-            android:textStyle="bold"
-            android:layout_marginStart="64dp"/>
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+            android:text="My Profile"
+            android:textSize="24dp"
+            android:textStyle="bold" />
+
         <TextView
             android:id="@+id/profile_name"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
-            android:textStyle="bold"
-            android:layout_marginStart="64dp"
-            android:layout_marginTop="20dp"
-            android:textSize="24dp"/>
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center"
+            android:text="Sample Name"
+            android:textSize="24dp"
+            android:textStyle="bold" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
-            android:backgroundTint="@color/white"
-            android:drawableRight="@drawable/baseline_edit_24"
-            android:text="@string/edit_profile" />
+<!--        <androidx.appcompat.widget.AppCompatButton-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="20dp"-->
+<!--            android:backgroundTint="@color/white"-->
+<!--            android:drawableRight="@drawable/baseline_edit_24"-->
+<!--            android:text="@string/edit_profile" />-->
 
-    </FrameLayout>
+    </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="385dp"
+        android:layout_marginTop="400dp"
         android:orientation="vertical"
-        android:paddingHorizontal="20dp"
-        android:layout_marginTop="150dp">
+        android:paddingHorizontal="20dp">
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button2"
-            android:backgroundTint="#FF8F05"
+            android:id="@+id/logoutBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Log Out"
-            android:onClick="logout"/>
+            android:backgroundTint="#FF8F05"
+            android:text="Log Out" />
 
     </LinearLayout>
 
