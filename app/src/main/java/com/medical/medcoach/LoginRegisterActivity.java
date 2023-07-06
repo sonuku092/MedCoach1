@@ -34,15 +34,11 @@ import java.util.Objects;
 
 public class LoginRegisterActivity extends AppCompatActivity {
 
-    //create database
-//    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
     ViewPager2 viewPager2;
     ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
     BottomNavigationView bottomNavigationView;
     CardView cardView;
-
     LottieAnimationView animationView;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,45 +95,5 @@ public class LoginRegisterActivity extends AppCompatActivity {
 
     }
 
-//    private boolean validateEmail(){
-//        String email = Objects.requireNonNull(log_email.getText()).toString().trim();
-//
-//        if (email.isEmpty()){
-//            log_email.setError("Field can't be Empty");
-//            return false;
-//        }
-//        else {
-//            log_email.setError(null);
-//            return true;
-//        }
-//    }
-//
-//    private boolean validatePassword(){
-//        String password = Objects.requireNonNull(log_password.getText()).toString().trim();
-//
-//        if (password.isEmpty()){
-//            log_password.setError("Field can't be Empty");
-//            return false;
-//        }
-//        else {
-//            log_password.setError(null);
-//            return true;
-//        }
-//    }
-//
-//    public  void confirmInput(View v){
-//        if (!validateEmail() | !validatePassword()){
-//            return;
-//        }
-//        String input = "email: " + log_email.getText().toString();
-//        input +="\n";
-//        input = "Password: " + log_password.getText().toString();
-//
-////        Toast.makeText(this, input, Toast.LENGTH_SHORT).show();
-////        Toast.makeText(LoginRegisterActivity.this, "Please long press the key", Toast.LENGTH_LONG ).show();
-//
-//        Toast.makeText(this, "Your Text Here!", Toast.LENGTH_SHORT).show();
-//
-//    }
 
 }
