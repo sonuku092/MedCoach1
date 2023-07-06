@@ -76,23 +76,25 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/profile_name"
+            android:id="@+id/profile_name1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_gravity="center"
             android:text="Sample Name"
-            android:textSize="24dp"
-            android:textStyle="bold" />
+            android:textSize="24sp"
+            android:textStyle="bold"
+            tools:ignore="HardcodedText" />
 
         <TextView
-            android:id="@+id/useremail"
+            android:id="@+id/useremail1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_gravity="center"
             android:text="abc@gmail.com"
-            android:textSize="20dp" />
+            android:textSize="20sp"
+            tools:ignore="HardcodedText" />
 
         <Button
             android:id="@+id/EditProfileBtn"

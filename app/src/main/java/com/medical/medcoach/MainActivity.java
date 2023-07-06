@@ -1,7 +1,9 @@
 package com.medical.medcoach;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -29,14 +31,14 @@ public class MainActivity extends AppCompatActivity {
     ViewPager2 viewPager2;
     ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
     BottomNavigationView bottomNavigationView;
-
+    TextView UserName, UserEmail;
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        setUser();
 
         viewPager2 = findViewById(R.id.viewPager);
 
@@ -89,23 +91,4 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void setUser() {
-        String UserEmail;
-        UserEmail=getIntent().getStringExtra("Email");
-        firebaseFirestore.collection("Users").whereEqualTo("Email",UserEmail)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                String UserName =document.getString("First Name");
-                                Toast.makeText(MainActivity.this, UserName, Toast.LENGTH_SHORT).show();
-                            }
-                        } else {
-
-                        }
-                    }
-                });
-    }
 }

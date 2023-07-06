@@ -40,19 +40,18 @@ import java.util.concurrent.TimeUnit;
 public class ProfileFragment extends Fragment {
     FragmentProfileBinding binding;
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
-
     TextView UserName, UserEmail;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        SetUser();
+        UserName=view.findViewById(R.id.profile_name1);
+        UserEmail=view.findViewById(R.id.useremail1);
+        UserEmail.setText("Sonu Kumar");
 
         binding = FragmentProfileBinding.inflate(inflater,container,false);
-
-        UserName=view.findViewById(R.id.profile_name);
-        UserEmail=view.findViewById(R.id.useremail);
 
         binding.logoutBtn.setOnClickListener(v->{
 
@@ -62,26 +61,6 @@ public class ProfileFragment extends Fragment {
         });
 
      return binding.getRoot();
-    }
-
-    private void SetUser() {
-
-        String email=getActivity().getIntent().getStringExtra("Email");
-
-        firebaseFirestore.collection("Users").whereEqualTo("Email",email)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-
-                            }
-                        } else {
-
-                        }
-                    }
-                });
     }
 
 }
