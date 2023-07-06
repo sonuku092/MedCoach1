@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:layout_marginTop="4dp"
-            android:text="Public Blog"
+            android:text="Post Your Blog"
             android:textSize="28sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"

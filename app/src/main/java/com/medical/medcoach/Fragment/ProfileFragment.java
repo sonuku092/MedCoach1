@@ -25,6 +25,11 @@ import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.medical.medcoach.Adapter.Model;
 import com.medical.medcoach.LoginRegisterActivity;
 import com.medical.medcoach.R;
 import com.medical.medcoach.databinding.FragmentProfileBinding;
@@ -34,36 +39,21 @@ import java.util.concurrent.TimeUnit;
 
 public class ProfileFragment extends Fragment {
     FragmentProfileBinding binding;
-    DatabaseReference databaseReference;
-    TextView UserName;
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+
+    TextView UserName, UserEmail;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
+        SetUser();
+
         binding = FragmentProfileBinding.inflate(inflater,container,false);
 
         UserName=view.findViewById(R.id.profile_name);
+        UserEmail=view.findViewById(R.id.useremail);
 
-        databaseReference= FirebaseDatabase.getInstance().getReference("Users");
-        databaseReference.child("+919999996262").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (task.isSuccessful()){
-                    if (task.getResult().exists()){
-                        DataSnapshot dataSnapshot = task.getResult();
-                        String Name = String.valueOf(dataSnapshot.child("Full Name").getValue());
-                        UserName.setText(Name);
-
-                    }else {
-                        Toast.makeText(getActivity(), "User Not Exist", Toast.LENGTH_SHORT).show();
-                    }
-                }else {
-                    Toast.makeText(getActivity(), "Failed", Toast.LENGTH_SHORT).show();
-                }
-
-            }
-        });
         binding.logoutBtn.setOnClickListener(v->{
 
             FirebaseAuth.getInstance().signOut();
@@ -72,6 +62,26 @@ public class ProfileFragment extends Fragment {
         });
 
      return binding.getRoot();
+    }
+
+    private void SetUser() {
+
+        String email=getActivity().getIntent().getStringExtra("Email");
+
+        firebaseFirestore.collection("Users").whereEqualTo("Email",email)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+
+                            }
+                        } else {
+
+                        }
+                    }
+                });
     }
 
 }

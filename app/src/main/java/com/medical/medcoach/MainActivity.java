@@ -2,6 +2,7 @@ package com.medical.medcoach;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,8 +10,13 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.medical.medcoach.Adapter.AdapterViewPager;
 import com.medical.medcoach.Fragment.BlogFragment;
 import com.medical.medcoach.Fragment.HomeFragment;
@@ -24,11 +30,13 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
     BottomNavigationView bottomNavigationView;
 
-
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        setUser();
 
         viewPager2 = findViewById(R.id.viewPager);
 
@@ -79,5 +87,25 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void setUser() {
+        String UserEmail;
+        UserEmail=getIntent().getStringExtra("Email");
+        firebaseFirestore.collection("Users").whereEqualTo("Email",UserEmail)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                String UserName =document.getString("First Name");
+                                Toast.makeText(MainActivity.this, UserName, Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+
+                        }
+                    }
+                });
     }
 }
