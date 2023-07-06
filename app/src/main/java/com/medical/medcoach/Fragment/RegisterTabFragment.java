@@ -9,14 +9,20 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.FirebaseException;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
@@ -25,11 +31,14 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.medical.medcoach.LoginRegisterActivity;
 import com.medical.medcoach.R;
 import com.medical.medcoach.SplashActivity;
+import com.medical.medcoach.getOTPActivity;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 
@@ -78,62 +87,98 @@ public class RegisterTabFragment extends Fragment {
                 if (!isEmail(phoneTxt)){
 
                     firebaseFirestore.collection("Users")
-                        .whereEqualTo("Number",phoneTxt)
+                        .whereEqualTo("Email",phoneTxt)
                         .get()
                         .addOnCompleteListener(task -> {
                             if (task.isSuccessful()){
+                                String Password = "";
                                 for (QueryDocumentSnapshot documentSnapshot: task.getResult()){
-                                    String number1 = (String) documentSnapshot.get("Number");
-                                    if (!number1.isEmpty()){
-                                        flag=1;
-                                    }
+                                    Password = (String) documentSnapshot.get("Password");
+                                }
+                                if (!passwordTxt.equals(Password)){
+                                    PhoneAuthProvider.getInstance().verifyPhoneNumber(
+                                            "+91" + phoneTxt,
+                                            60,
+                                            TimeUnit.SECONDS,
+                                            getActivity(),
+                                            new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+                                                @Override
+                                                public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
+                                                    Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
+                                                }
+
+                                                @Override
+                                                public void onVerificationFailed(@NonNull FirebaseException e) {
+                                                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                }
+
+                                                @Override
+                                                public void onCodeSent(@NonNull String Sendotp, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+                                                    Intent intent = new Intent(getActivity(), getOTPActivity.class);
+                                                    intent.putExtra("phoneTxt", phoneTxt);
+                                                    intent.putExtra("FullName", fullnameTxt);
+                                                    intent.putExtra("Password", passwordTxt);
+                                                    intent.putExtra("backend", Sendotp);
+                                                    startActivity(intent);
+                                                }
+                                            });
+
+                                }
+                                else {
+
                                 }
                             }
                         }).addOnFailureListener(e -> {
 
                         });
                     if(!(flag ==1)){
-                        Map<String, Object> user = new HashMap<>();
-                        user.put("First Name", fullnameTxt);
-                        user.put("Password", passwordTxt);
-                        user.put("Number", phoneTxt);
-                        firebaseFirestore.collection("Users")
-                                .add(user)
-                                .addOnSuccessListener(documentReference -> {
 
-                                });
                         flag=0;
                     }
                 }else {
-
-
                     firebaseFirestore.collection("Users")
                                     .whereEqualTo("Email",phoneTxt)
                                             .get()
                             .addOnCompleteListener(task -> {
                                 if (task.isSuccessful()){
+                                    String userpass = "";
                                     for (QueryDocumentSnapshot documentSnapshot: task.getResult()){
-                                        String number1 = (String) documentSnapshot.get("Number");
-                                        if (!number1.isEmpty()){
-                                            flag=1;
-                                            }
+                                        userpass = (String) documentSnapshot.get("Password").toString();
                                     }
+                                    if (!passwordTxt.equals(userpass)){
+                                        mAuth.createUserWithEmailAndPassword(phoneTxt, passwordTxt)
+                                                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                                        if (task.isSuccessful()) {
+                                                            String Uid=FirebaseAuth.getInstance().getUid();
+                                                            Map<String, Object> user = new HashMap<>();
+                                                            user.put("FullName", fullnameTxt);
+                                                            user.put("Password", passwordTxt);
+                                                            user.put("Email", phoneTxt);
+                                                            user.put("Uid", Uid);
+                                                            firebaseFirestore.collection("Users")
+                                                                    .add(user)
+                                                                    .addOnSuccessListener(documentReference -> {
+                                                                        FirebaseAuth.getInstance().signOut();
+                                                                        startActivity(new Intent(getContext(), LoginRegisterActivity.class));
+                                                                        getActivity().finish();
+                                                                    }).addOnFailureListener(e -> {
+                                                                    });
+                                                        } else {
+                                                            // If sign in fails, display a message to the user.
+                                                            Toast.makeText(getActivity(), "Authentication failed.", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    }
+                                                });
+
+                                    }else {
+                                        Toast.makeText(getActivity(), "User Already Exist!", Toast.LENGTH_SHORT).show();
+                                    }
+
                                 }
                             }).addOnFailureListener(e -> {
                             });
-                    if (!(flag ==1)) {
-                        Map<String, Object> user = new HashMap<>();
-                        user.put("First Name", fullnameTxt);
-                        user.put("Password", passwordTxt);
-                        user.put("Email", phoneTxt);
-                        firebaseFirestore.collection("Users")
-                                .add(user)
-                                .addOnSuccessListener(documentReference -> {
-                                    getActivity().onBackPressed();
-                                }).addOnFailureListener(e -> {
-                                });
-                        flag=0;
-                    }
 
                 }
 

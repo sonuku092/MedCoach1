@@ -19,6 +19,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
@@ -31,6 +32,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.medical.medcoach.Adapter.Model;
 import com.medical.medcoach.LoginRegisterActivity;
+import com.medical.medcoach.MainActivity;
 import com.medical.medcoach.R;
 import com.medical.medcoach.databinding.FragmentProfileBinding;
 import com.medical.medcoach.getOTPActivity;
@@ -39,8 +41,34 @@ import java.util.concurrent.TimeUnit;
 
 public class ProfileFragment extends Fragment {
     FragmentProfileBinding binding;
+    FirebaseAuth auth = FirebaseAuth.getInstance();
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     TextView UserName, UserEmail;
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        String useremail, UID;
+        useremail=auth.getCurrentUser().getEmail();
+        UID=auth.getCurrentUser().getUid();
+        binding.useremail1.setText(useremail);
+        firebaseFirestore.collection("Users")
+                .whereEqualTo("Email",useremail)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()){
+                        String UserName = "";
+                        for (QueryDocumentSnapshot documentSnapshot: task.getResult()){
+                            UserName = (String) documentSnapshot.get("FullName");
+                        }
+                        binding.profileName1.setText(UserName);
+                    }
+                }).addOnFailureListener(e -> {
+
+                });
+
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,7 +77,6 @@ public class ProfileFragment extends Fragment {
 
         UserName=view.findViewById(R.id.profile_name1);
         UserEmail=view.findViewById(R.id.useremail1);
-        UserEmail.setText("Sonu Kumar");
 
         binding = FragmentProfileBinding.inflate(inflater,container,false);
 

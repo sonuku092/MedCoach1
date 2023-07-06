@@ -73,14 +73,17 @@ public class LoginTabFragment extends Fragment {
                 counter--;
             } else if (!isEmail(email)) {
                 firebaseFirestore.collection("Users")
-                        .whereEqualTo("Number",email)
+                        .whereEqualTo("Email",email)
                         .get()
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                 if (task.isSuccessful()){
+                                    String pass = "";
                                     for (QueryDocumentSnapshot queryDocumentSnapshot: task.getResult()){
-                                        String pass = (String) queryDocumentSnapshot.get("Password");
+                                        pass = (String) queryDocumentSnapshot.get("Password");
+                                    }
+                                    if (password.equals(pass)) {
                                         PhoneAuthProvider.getInstance().verifyPhoneNumber(
                                                 "+91" + email,
                                                 60,
@@ -100,12 +103,13 @@ public class LoginTabFragment extends Fragment {
                                                     @Override
                                                     public void onCodeSent(@NonNull String Sendotp, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
                                                         Intent intent = new Intent(getActivity(), getOTPActivity.class);
-                                                        intent.putExtra("phoneTxt",email);
-                                                        intent.putExtra("backend",Sendotp);
+                                                        intent.putExtra("phoneTxt", email);
+                                                        intent.putExtra("backend", Sendotp);
                                                         startActivity(intent);
                                                     }
-                                                }
-                                        );
+                                                });
+                                    }else {
+                                        log_password.setError("Password Incorrect");
                                     }
                                 }
                             }
@@ -118,33 +122,33 @@ public class LoginTabFragment extends Fragment {
                         .get()
                         .addOnCompleteListener(task -> {
                             if (task.isSuccessful()){
+                                String userpass = "";
                                 for (QueryDocumentSnapshot documentSnapshot: task.getResult()){
-                                    String userpass = (String) documentSnapshot.get("Password");
-                                    if (password.equals(userpass)){
-                                        mAuth.signInWithEmailAndPassword(email, password)
-                                                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                                    @Override
-                                                    public void onComplete(@NonNull Task<AuthResult> task) {
-                                                        if (task.isSuccessful()) {
-                                                            // Sign in success, update UI with the signed-in user's information
-                                                            Intent intent= new Intent(getActivity(),MainActivity.class);
-                                                            intent.putExtra("Email",email);
-                                                            intent.putExtra("Password",password);
-                                                            startActivity(intent);
-                                                            getActivity().finish();
+                                    userpass = (String) documentSnapshot.get("Password");
+                                }
+                                if (password.equals(userpass)){
+                                    mAuth.signInWithEmailAndPassword(email, password)
+                                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                                    if (task.isSuccessful()) {
+                                                        // Sign in success, update UI with the signed-in user's information
+                                                        Intent intent= new Intent(getActivity(),MainActivity.class);
+                                                        intent.putExtra("Email",email);
+                                                        intent.putExtra("Password",password);
+                                                        startActivity(intent);
+                                                        getActivity().finish();
 
-                                                        } else {
-                                                            // If sign in fails, display a message to the user.
-                                                            Toast.makeText(getActivity(), "Login failed.",Toast.LENGTH_SHORT).show();
+                                                    } else {
+                                                        // If sign in fails, display a message to the user.
+                                                        Toast.makeText(getActivity(), "Login failed.",Toast.LENGTH_SHORT).show();
 
-                                                        }
                                                     }
-                                                });
-                                    }
-                                    else {
-                                        log_password.setError("Password Incorrect");
-                                    }
-
+                                                }
+                                            });
+                                }
+                                else {
+                                    log_password.setError("Password Incorrect");
                                 }
                             }
                         }).addOnFailureListener(e -> {

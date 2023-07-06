@@ -26,8 +26,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -49,7 +51,7 @@ public class BlogFragment extends Fragment {
     EditText Titles,Contents,AuthorName;
     ImageView UploadImg,cancleX;
     TextView Date;
-    String currentDate;
+    String currentDate, CurrentUserID;
     FloatingActionButton floatingActionButton;
     SearchView searchView;
     Calendar calendar = Calendar.getInstance();
@@ -101,6 +103,22 @@ public class BlogFragment extends Fragment {
                 cancleX = dialog.findViewById(R.id.cancel);
                 currentDate = DateFormat.getDateInstance().format(calendar.getTime());
                 Date.setText(currentDate);
+                CurrentUserID=FirebaseAuth.getInstance().getCurrentUser().getUid();
+                firebaseFirestore.collection("Users")
+                        .whereEqualTo("Uid",CurrentUserID)
+                        .get()
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()){
+                                String UserName = "";
+                                for (QueryDocumentSnapshot documentSnapshot: task.getResult()){
+                                    UserName = (String) documentSnapshot.get("FullName");
+                                }
+                                AuthorName.setText(UserName);
+                            }
+                        }).addOnFailureListener(e -> {
+
+                        });
+
                 UploadImg.setOnClickListener(view12 -> selectIMG());
 
                 SaveBtn.setOnClickListener(view1 -> {

@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
     ViewPager2 viewPager2;
     ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
     BottomNavigationView bottomNavigationView;
-    TextView UserName, UserEmail;
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     @SuppressLint("MissingInflatedId")
     @Override
