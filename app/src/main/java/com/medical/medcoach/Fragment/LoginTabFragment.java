@@ -119,31 +119,36 @@ public class LoginTabFragment extends Fragment {
                         .addOnCompleteListener(task -> {
                             if (task.isSuccessful()){
                                 for (QueryDocumentSnapshot documentSnapshot: task.getResult()){
-                                    String useremail = (String) documentSnapshot.get("Email");
+                                    String userpass = (String) documentSnapshot.get("Password");
+                                    if (password.equals(userpass)){
+                                        mAuth.signInWithEmailAndPassword(email, password)
+                                                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                                        if (task.isSuccessful()) {
+                                                            // Sign in success, update UI with the signed-in user's information
+                                                            Intent intent= new Intent(getActivity(),MainActivity.class);
+                                                            intent.putExtra("Email",email);
+                                                            intent.putExtra("Password",password);
+                                                            startActivity(intent);
+                                                            getActivity().finish();
+
+                                                        } else {
+                                                            // If sign in fails, display a message to the user.
+                                                            Toast.makeText(getActivity(), "Login failed.",Toast.LENGTH_SHORT).show();
+
+                                                        }
+                                                    }
+                                                });
+                                    }
+                                    else {
+                                        log_password.setError("Password Incorrect");
+                                    }
 
                                 }
                             }
                         }).addOnFailureListener(e -> {
 
-                        });
-                mAuth.signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    // Sign in success, update UI with the signed-in user's information
-                                    Intent intent= new Intent(getActivity(),MainActivity.class);
-                                    intent.putExtra("Email",email);
-                                    intent.putExtra("Password",password);
-                                    startActivity(intent);
-                                    getActivity().finish();
-
-                                } else {
-                                    // If sign in fails, display a message to the user.
-                                    Toast.makeText(getActivity(), "Login failed.",Toast.LENGTH_SHORT).show();
-
-                                }
-                            }
                         });
 
                 counter--;

@@ -18,11 +18,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <ImageView
+            android:id="@+id/icon1"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:padding="5dp"
+            android:src="@drawable/img_1"
+            app:tint="@color/DeepSkyBlue" />
+
         <TextView
+            android:id="@+id/txt1"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="5dp"
+            android:layout_toEndOf="@id/icon1"
             android:gravity="center_vertical"
-            android:text="Blogs"
+            android:text="Published Blogs"
             android:textSize="24sp"
             android:textStyle="bold" />
     </RelativeLayout>
@@ -39,17 +55,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/relativeLayout" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerv"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search1"
-        tools:listitem="@layout/blog_row">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="110dp"
+        android:layout_marginBottom="100dp"
+        android:scrollbars="none">
 
-    </androidx.recyclerview.widget.RecyclerView>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:listitem="@layout/blog_row">
+
+        </androidx.recyclerview.widget.RecyclerView>
+    </ScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton"

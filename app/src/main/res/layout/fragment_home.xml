@@ -1,19 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragment.HomeFragment"
     android:background="#F5F5F5">
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="20dp">
 
+        <ImageView
+            android:id="@+id/icon1"
+            android:layout_width="44dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="0dp"
+            android:src="@drawable/img"
+            app:tint="@color/DeepSkyBlue" />
+
+        <TextView
+            android:id="@+id/txt1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="5dp"
+            android:layout_toEndOf="@id/icon1"
+            android:gravity="center_vertical"
+            android:text="Home"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
 
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="100dp"
-
-        >
+        android:layout_marginTop="52dp"
+        android:scrollbars="none"
+        android:layout_marginBottom="100dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -25,7 +53,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="116dp"
                 android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/cardbg_2"
                 android:clickable="true">
 

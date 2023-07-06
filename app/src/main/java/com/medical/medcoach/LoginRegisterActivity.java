@@ -78,7 +78,6 @@ public class LoginRegisterActivity extends AppCompatActivity {
             }
         });
 
-
         bottomNavigationView.setOnItemSelectedListener(item -> {
 
             int id = item.getItemId();
@@ -91,9 +90,6 @@ public class LoginRegisterActivity extends AppCompatActivity {
             return true;
         });
 
-
-
     }
-
 
 }

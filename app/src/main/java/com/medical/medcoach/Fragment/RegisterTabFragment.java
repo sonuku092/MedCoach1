@@ -25,7 +25,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.medical.medcoach.MainActivity;
 import com.medical.medcoach.R;
 import com.medical.medcoach.SplashActivity;
 
@@ -54,6 +53,7 @@ public class RegisterTabFragment extends Fragment {
 
         register_btn=view.findViewById(R.id.Reg_Btn);
         reset_btn=view.findViewById(R.id.Res_Btn);
+
         mAuth=FirebaseAuth.getInstance();
 
         register_btn.setOnClickListener(v -> {
@@ -74,21 +74,68 @@ public class RegisterTabFragment extends Fragment {
                 c_password.setError("Not Match");
                 c_password.requestFocus();
             } else {
+
+                if (!isEmail(phoneTxt)){
+
                     firebaseFirestore.collection("Users")
-                        .whereEqualTo("Email/Number",phoneTxt)
+                        .whereEqualTo("Number",phoneTxt)
                         .get()
                         .addOnCompleteListener(task -> {
                             if (task.isSuccessful()){
                                 for (QueryDocumentSnapshot documentSnapshot: task.getResult()){
-                                    String number1 = (String) documentSnapshot.get("Email/Number");
+                                    String number1 = (String) documentSnapshot.get("Number");
                                     if (!number1.isEmpty()){
-                                        StoreData();
+                                        flag=1;
                                     }
                                 }
                             }
                         }).addOnFailureListener(e -> {
 
                         });
+                    if(!(flag ==1)){
+                        Map<String, Object> user = new HashMap<>();
+                        user.put("First Name", fullnameTxt);
+                        user.put("Password", passwordTxt);
+                        user.put("Number", phoneTxt);
+                        firebaseFirestore.collection("Users")
+                                .add(user)
+                                .addOnSuccessListener(documentReference -> {
+
+                                });
+                        flag=0;
+                    }
+                }else {
+
+
+                    firebaseFirestore.collection("Users")
+                                    .whereEqualTo("Email",phoneTxt)
+                                            .get()
+                            .addOnCompleteListener(task -> {
+                                if (task.isSuccessful()){
+                                    for (QueryDocumentSnapshot documentSnapshot: task.getResult()){
+                                        String number1 = (String) documentSnapshot.get("Number");
+                                        if (!number1.isEmpty()){
+                                            flag=1;
+                                            }
+                                    }
+                                }
+                            }).addOnFailureListener(e -> {
+                            });
+                    if (!(flag ==1)) {
+                        Map<String, Object> user = new HashMap<>();
+                        user.put("First Name", fullnameTxt);
+                        user.put("Password", passwordTxt);
+                        user.put("Email", phoneTxt);
+                        firebaseFirestore.collection("Users")
+                                .add(user)
+                                .addOnSuccessListener(documentReference -> {
+                                    getActivity().onBackPressed();
+                                }).addOnFailureListener(e -> {
+                                });
+                        flag=0;
+                    }
+
+                }
 
             }
 
@@ -107,25 +154,6 @@ public class RegisterTabFragment extends Fragment {
 
 
         return view;
-    }
-
-    private void StoreData() {
-        //Get data from the XML design page
-        final String fullnameTxt, phoneTxt, passwordTxt;
-        fullnameTxt = String.valueOf(Name.getText());
-        phoneTxt = String.valueOf(reg_phone.getText());
-        passwordTxt = String.valueOf(reg_password.getText());
-
-        Map<String, Object> user = new HashMap<>();
-        user.put("First Name", fullnameTxt);
-        user.put("Password", passwordTxt);
-        user.put("Email/Number", phoneTxt);
-        firebaseFirestore.collection("Users")
-                .add(user)
-                .addOnSuccessListener(documentReference -> {
-                    startActivity(new Intent(getActivity(), MainActivity.class));
-                });
-        flag=0;
     }
 
     Pattern lowerCase= Pattern.compile("^.*[a-z].*$");
