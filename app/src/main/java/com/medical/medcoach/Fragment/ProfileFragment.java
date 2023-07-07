@@ -48,20 +48,21 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        String useremail, UID;
-        useremail=auth.getCurrentUser().getEmail();
+        String UID;
         UID=auth.getCurrentUser().getUid();
-        binding.useremail1.setText(useremail);
         firebaseFirestore.collection("Users")
-                .whereEqualTo("Email",useremail)
+                .whereEqualTo("Uid",UID)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()){
                         String UserName = "";
+                        String UserEmail = "";
                         for (QueryDocumentSnapshot documentSnapshot: task.getResult()){
                             UserName = (String) documentSnapshot.get("FullName");
+                            UserEmail = (String) documentSnapshot.get("Email");
                         }
                         binding.profileName1.setText(UserName);
+                        binding.useremail1.setText(UserEmail);
                     }
                 }).addOnFailureListener(e -> {
 
